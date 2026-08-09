@@ -7,6 +7,9 @@ Outline используется как корпоративная Wiki и ис�
 ## TLDR
 Требуются уже запущенные Outline и Dify.
 
+Readme для Outline: [outline/README.md](outline/README.md)
+Readme для Dify: [dify/README.md](https://github.com/langgenius/dify/blob/main/README.md)
+
 ```bash
 cp .env.example .env
 # заполните OUTLINE_*, DIFY_*, DIFY_DATASET_ID, OUTLINE_COLLECTION_ID, SYNC_INTERVAL
