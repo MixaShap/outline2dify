@@ -1,0 +1,13 @@
+services:
+  outline2dify:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: outline-dify-sync
+    env_file: ./.env
+    volumes:
+      - ./sync-data:/data
+    restart: unless-stopped
+    extra_hosts:
+      - "localhost:host-gateway"
+
