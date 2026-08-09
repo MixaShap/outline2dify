@@ -4,6 +4,18 @@ Self-hosted RAG-система на базе [Outline](https://www.getoutline.co
 
 Outline используется как корпоративная Wiki и источник документов. Dify индексирует документы, создаёт embeddings и предоставляет RAG-интерфейс для чатботов.
 
+## TLDR
+Требуются уже запущенные Outline и Dify.
+
+```bash
+cp .env.example .env
+# заполните OUTLINE_*, DIFY_*, DIFY_DATASET_ID, OUTLINE_COLLECTION_ID, SYNC_INTERVAL
+
+docker compose up -d --build
+docker compose logs -f outline2dify
+```
+
+
 ## Architecture
 
 ```text

@@ -1,0 +1,75 @@
+services:
+  outline:
+    image: docker.getoutline.com/outlinewiki/outline:latest
+    env_file: ./docker.env
+    expose:
+      - "3000"
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./storage-data:/var/lib/outline/data
+    depends_on:
+      - postgres
+      - redis
+    extra_hosts:
+      - "localhost:host-gateway"
+
+  redis:
+    image: redis
+    env_file: ./docker.env
+    expose:
+      - "6379"
+    volumes:
+      - ./redis.conf:/redis.conf
+    command: ["redis-server", "/redis.conf"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
+
+  postgres:
+    image: postgres:18
+    env_file: ./docker.env
+    expose:
+      - "5432"
+    volumes:
+      - ./database-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "outline", "-U", "user"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    environment:
+      POSTGRES_USER: 'user'
+      POSTGRES_PASSWORD: 'pass'
+      POSTGRES_DB: 'outline'
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: keycloak
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpassword
+      KC_HTTP_PORT: 8080
+      KC_HOSTNAME_STRICT: "false"
+      KC_DB: dev-file
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak-data:/opt/keycloak/data/import
+      - ./keycloak-db:/opt/keycloak/data
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "3000:3000"
+    environment:
+      - NGINX_PORT=3000
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - outline
+
+
