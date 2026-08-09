@@ -31,8 +31,8 @@ docker compose logs -f outline2dify
                                     │
                                     ▼
                          ┌──────────────────────┐
-                         │ outline-dify-sync     │
-                         │      Python           │
+                         │ outline-dify-sync    │
+                         │      Python          │
                          └──────────┬───────────┘
                                     │
                            Dify Dataset API
@@ -49,7 +49,7 @@ docker compose logs -f outline2dify
                                     │
                                     ▼
                          ┌──────────────────────┐
-                         │      LM Studio      │
+                         │      LM Studio       │
                          │                      │
                          │ Nomic Embeddings     │
                          │ GPT-OSS-20B          │
@@ -59,13 +59,13 @@ docker compose logs -f outline2dify
                          ┌──────────────────────┐
                          │     Dify Chatbot     │
                          │                      │
-                         │ User Input            │
-                         │       ↓               │
-                         │ Knowledge Retrieval   │
-                         │       ↓               │
-                         │ LLM                   │
-                         │       ↓               │
-                         │ Answer                │
+                         │ User Input           │
+                         │       ↓              │
+                         │ Knowledge Retrieval  │
+                         │       ↓              │
+                         │ LLM                  │
+                         │       ↓              │
+                         │ Answer               │
                          └──────────────────────┘
 ```
 
