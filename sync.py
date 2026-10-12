@@ -30,6 +30,10 @@ OUTLINE_COLLECTION_ID = os.getenv("OUTLINE_COLLECTION_ID", "")
 
 STATE_FILE = Path(os.getenv("STATE_FILE", "./outline_dify_state.json"))
 
+# Pause after every DOCUMENTS_PER_PAUSE synced documents.
+PAGINATION_PAUSE = int(os.getenv("PAGINATION_PAUSE", "5"))
+DOCUMENTS_PER_PAUSE = 10
+
 REQUEST_TIMEOUT = 30
 
 
@@ -266,6 +270,7 @@ def sync():
     )
 
     current_ids = set()
+    synced_since_pause = 0
 
     for outline_doc in outline_documents:
 
@@ -327,13 +332,12 @@ def sync():
                 print(
                     f"  [WARNING] Empty document: {title}"
                 )
-                continue
 
             # ------------------------------------------------
             # CREATE
             # ------------------------------------------------
 
-            if not previous:
+            elif not previous:
                 print(
                     f"  Creating in Dify..."
                 )
@@ -369,6 +373,8 @@ def sync():
                     f"  Created: {dify_id}"
                 )
 
+                save_state(state)
+
             # ------------------------------------------------
             # UPDATE
             # ------------------------------------------------
@@ -401,12 +407,25 @@ def sync():
                     f"  Updated."
                 )
 
-            save_state(state)
+                save_state(state)
 
         except Exception as exc:
             print(
                 f"  [ERROR] {title}: {exc}"
             )
+
+        synced_since_pause += 1
+
+        if (
+            synced_since_pause >= DOCUMENTS_PER_PAUSE
+            and PAGINATION_PAUSE > 0
+        ):
+            print(
+                f"Pausing {PAGINATION_PAUSE} seconds "
+                f"after {DOCUMENTS_PER_PAUSE} documents..."
+            )
+            time.sleep(PAGINATION_PAUSE)
+            synced_since_pause = 0
 
     # --------------------------------------------------------
     # Delete documents removed from Outline

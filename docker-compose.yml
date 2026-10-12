@@ -8,6 +8,5 @@ services:
     volumes:
       - ./sync-data:/data
     restart: unless-stopped
-    extra_hosts:
-      - "localhost:host-gateway"
+    network_mode: host
 
