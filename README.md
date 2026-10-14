@@ -1,18 +1,18 @@
 # Outline → Dify RAG
 
-Self-hosted RAG-система на базе [Outline](https://www.getoutline.com/) и [Dify](https://dify.ai/).
+Self-hosted RAG system based on [Outline](https://www.getoutline.com/) and [Dify](https://dify.ai/).
 
-Outline используется как корпоративная Wiki и источник документов. Dify индексирует документы, создаёт embeddings и предоставляет RAG-интерфейс для чатботов.
+Outline is the corporate wiki and the source of documents. Dify indexes those documents, creates embeddings, and provides a RAG interface for chatbots.
 
 ## TLDR
-Требуются уже запущенные Outline и Dify.
+Outline and Dify must already be running.
 
-Readme для Outline: [outline/README.md](outline/README.md)
-Readme для Dify: [dify/README.md](https://github.com/langgenius/dify/blob/main/README.md)
+Outline readme: [outline/README.md](outline/README.md)
+Dify readme: [dify/README.md](https://github.com/langgenius/dify/blob/main/README.md)
 
 ```bash
 cp .env.example .env
-# заполните OUTLINE_*, DIFY_*, DIFY_DATASET_ID, OUTLINE_COLLECTION_ID, SYNC_INTERVAL
+# fill in OUTLINE_*, DIFY_*, DIFY_DATASET_ID, OUTLINE_COLLECTION_ID, SYNC_INTERVAL
 
 docker compose up -d --build
 docker compose logs -f outline2dify
@@ -1065,5 +1065,5 @@ The completed system provides:
 
 The result is a fully self-hosted Wiki + RAG stack where Outline acts as the source of documentation and Dify provides the retrieval and LLM layer.
 
-Этот README можно положить в корень репозитория. Я намеренно оставил в нём **практическую последовательность настройки с нуля**, а не только описание готовой архитектуры.
+This README belongs in the repository root. It is a **practical setup sequence from scratch**, together with a description of the finished architecture.
 
